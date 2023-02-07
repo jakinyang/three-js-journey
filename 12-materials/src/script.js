@@ -1,41 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
-/** 
- * Textures
-*/
-
-const loadingManager = new THREE.LoadingManager();
-const textureLoader = new THREE.TextureLoader();
-
-
-// loadingManager.onStart = () => {
-//   console.log('onstart');
-// }
-
-// loadingManager.onLoad = () => {
-//   console.log('onload');
-// }
-
-// loadingManager.onProgress = () => {
-//   console.log('onprogress');
-// }
-
-// loadingManager.onError = () => {
-//   console.log('onerror');
-// }
-
-const texture = textureLoader.load('/textures/minecraft.png');
-// const colorTexture = textureLoader.load('/textures/door/color.jpg')
-// const alphaTexture = textureLoader.load('/textures/door/alpha.jpg')
-// const heightTexture = textureLoader.load('/textures/door/height.jpg')
-// const normalTexture = textureLoader.load('/textures/door/normal.jpg')
-// const ambientTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg')
-// const metalnessTexture = textureLoader.load('/textures/door/metalness.jpg')
-// const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg')
-
-texture.magFilter = THREE.NearestFilter
-/**1
+/**
  * Base
  */
 // Canvas
@@ -44,16 +10,34 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
-/**
- * Object
- */
-const geometry = new THREE.BoxGeometry(1, 1, 1)
-console.log(geometry.attributes.uv)
-const material = new THREE.MeshBasicMaterial({
-   map: texture,
-  })
-const mesh = new THREE.Mesh(geometry, material)
-scene.add(mesh)
+// Textures
+const textureLoader = new THREE.TextureLoader();
+const matcap4 = textureLoader.load('/textures/matcaps/4.png');
+const 
+
+// Objects
+
+const material = new THREE.MeshBasicMaterial();
+const sphere = new THREE.Mesh(
+  new THREE.SphereGeometry(0.5, 16, 16),
+  material
+)
+
+const plane = new THREE.Mesh(
+  new THREE.PlaneGeometry(1, 1),
+  material
+)
+plane.position.set(0, -0.7, 0)
+plane.rotation.x = -1
+
+const torus = new THREE.Mesh(
+  new THREE.TorusGeometry(0.3, 0.2, 16, 32),
+  material
+)
+torus.position.set(0, 1, 0);
+
+scene.add(sphere, plane, torus);
+
 
 /**
  * Sizes
@@ -85,7 +69,7 @@ window.addEventListener('resize', () =>
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = 1
 camera.position.y = 1
-camera.position.z = 1
+camera.position.z = 2
 scene.add(camera)
 
 // Controls
@@ -112,6 +96,10 @@ const tick = () =>
 
     // Update controls
     controls.update()
+
+    // Update objects
+    torus.rotation.y = 0.1 * elapsedTime,
+    plane.rotation.y = 0.1 * elapsedTime,
 
     // Render
     renderer.render(scene, camera)
