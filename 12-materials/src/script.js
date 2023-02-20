@@ -12,12 +12,52 @@ const scene = new THREE.Scene()
 
 // Textures
 const textureLoader = new THREE.TextureLoader();
-const matcap4 = textureLoader.load('/textures/matcaps/4.png');
-const 
+const doorColorTexture = textureLoader.load('/textures/door/color.jpg');
+const matcapTexture = textureLoader.load('/textures/matcaps/4.png');
+const alphaTexture = textureLoader.load('/textures/door/alpha.jpg');
+const ambientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg');
+const heightTexture = textureLoader.load('/textures/door/height.jpg');
+const normalTexture = textureLoader.load('/textures/door/normal.jpg');
+const metalnessTexture = textureLoader.load('/textures/door/metalness.jpg');
+const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg');
+const gradientsTexture = textureLoader.load('/textures/gradients/5.jpg');
 
 // Objects
 
-const material = new THREE.MeshBasicMaterial();
+// const material = new THREE.MeshBasicMaterial();
+// material.map = doorColorTexture;
+// material.color = new THREE.Color('pink')
+// material.wireframe = true
+// material.opacity = 0.5;
+// material.transparent = true;
+// material.alphaMap = alphaTexture;
+
+// const material = new THREE.MeshNormalMaterial();
+// material.flatShading = true
+
+// const material = new THREE.MeshMatcapMaterial();
+// material.matcap = matcapTexture
+
+// const material = new THREE.MeshDepthMaterial();
+
+// const material = new THREE.MeshLambertMaterial()
+
+// const material = new THREE.MeshPhongMaterial();
+
+// const material = new THREE.MeshToonMaterial();
+
+// gradientsTexture.minFilter = THREE.NearestFilter;
+// gradientsTexture.maxFilter = THREE.NearestFilter;
+// gradientsTexture.generateMipmaps = false;
+// material.gradientMap = gradientsTexture;
+
+const material = new THREE.MeshStandardMaterial();
+material.metalness = 0.5;
+material.roughness = 0.5;
+
+// material.shininess = 100
+// material.specular = new THREE.Color(0x1188ff);
+
 const sphere = new THREE.Mesh(
   new THREE.SphereGeometry(0.5, 16, 16),
   material
@@ -38,6 +78,16 @@ torus.position.set(0, 1, 0);
 
 scene.add(sphere, plane, torus);
 
+/**
+ * Lights
+ */
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+scene.add(ambientLight);
+
+const pointLight = new THREE.PointLight(0xffffff, 0.5);
+pointLight.position.set(5, 5, 5)
+scene.add(pointLight)
 
 /**
  * Sizes
