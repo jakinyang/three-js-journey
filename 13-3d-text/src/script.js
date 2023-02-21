@@ -21,6 +21,14 @@ const scene = new THREE.Scene()
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
+const matCapTexture1 = textureLoader.load('/textures/matcaps/1.png')
+const matCapTexture2 = textureLoader.load('/textures/matcaps/2.png')
+const matCapTexture3 = textureLoader.load('/textures/matcaps/3.png')
+const matCapTexture4 = textureLoader.load('/textures/matcaps/4.png')
+const matCapTexture5 = textureLoader.load('/textures/matcaps/5.png')
+const matCapTexture6 = textureLoader.load('/textures/matcaps/6.png')
+const matCapTexture7 = textureLoader.load('/textures/matcaps/7.png')
+const matCapTexture8 = textureLoader.load('/textures/matcaps/8.png')
 
 /*
 * Font Loader
@@ -36,7 +44,7 @@ fontLoader.load(
       {
         font: font,
         size: 0.5,
-        height: 0.05,
+        height: 0.1,
         curveSegments: 5,
         bevelEnabled: true,
         bevelThickness: 0.03,
@@ -45,13 +53,31 @@ fontLoader.load(
         bevelSegments: 2,
       }
     );
-    const material = new THREE.MeshBasicMaterial()
+    textGeometry.center()
+    const material = new THREE.MeshMatcapMaterial()
+    material.matcap = matCapTexture8
     material.wireframe = false
     const textMesh =  new THREE.Mesh(textGeometry, material)
-    textMesh.position.set(-3, 0, 0)
     scene.add(textMesh)
   }
 )
+
+/*
+* Geometry Flock
+*/
+const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45);
+const donutMaterial = new THREE.MeshMatcapMaterial({ matcap: matCapTexture8})
+console.time('donut');
+for (let i = 0; i < 300; i++) {
+  const donut = new THREE.Mesh(donutGeometry, donutMaterial);
+  donut.position.set(Math.floor((Math.random() - 0.5) * 15), Math.floor((Math.random() - 0.5) * 15), Math.floor((Math.random() - 0.5) * 15))
+  donut.rotation.set(Math.floor(Math.random() * Math.PI), Math.floor(Math.random() * Math.PI), Math.floor(Math.random() * Math.PI))
+  const scale = Math.random()
+  donut.scale.set(scale, scale, scale)
+  scene.add(donut)
+}
+
+console.timeEnd('donut')
 
 /*
 * Axes Helper
