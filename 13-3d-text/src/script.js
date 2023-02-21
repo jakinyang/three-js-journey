@@ -40,7 +40,7 @@ fontLoader.load(
   (font) => {
     console.log("Fonts Loaded");
     const textGeometry = new TextGeometry(
-      "MOO (REVOLUTION!)",
+      "(REVOLUTION!)",
       {
         font: font,
         size: 0.5,
@@ -84,7 +84,7 @@ console.timeEnd('donut')
 */
 
 const axesHelper = new THREE.AxesHelper()
-scene.add(axesHelper);
+// scene.add(axesHelper);
 
 /**
  * Object
